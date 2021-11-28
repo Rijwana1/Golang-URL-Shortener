@@ -1,6 +1,7 @@
 package store
 
 import (
+	"fmt"
 	"poc/url-shortener/db"
 	"poc/url-shortener/model"
 )
@@ -18,10 +19,21 @@ func Create(url model.URLTable) error {
 func Find(shortURL string) (*model.URLTable, error) {
 	db := db.CreateConnection()
 	defer db.Close()
-	url := &model.URLTable{}
-	err := db.First(&url, shortURL).Scan(&url).Error
+	out := &model.URLTable{}
+	fmt.Println(shortURL)
+	err := db.Raw(qryFind, shortURL).Scan(out).Error
 	if err != nil {
 		return nil, err
 	}
-	return url, nil
+	return out, nil
 }
+
+var qryFind = `
+SELECT
+	short_url,
+ 	long_url 
+FROM
+	 url_tables 
+WHERE
+	short_url = ?
+`

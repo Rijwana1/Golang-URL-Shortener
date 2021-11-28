@@ -13,14 +13,12 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// var urls []*model.URLTable
-
 func homePage() http.Handler {
 	return http.FileServer(http.Dir("./public/"))
 }
 
 func generateShortURL() string {
-	b := make([]byte, 3)
+	b := make([]byte, 2)
 	rand.Read(b)
 	return hex.EncodeToString(b)
 }
@@ -43,16 +41,6 @@ func shortenURL(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprintf(w, "http://localhost:10000/s/"+URL.ShortURL)
 
-	// db := db.CreateConnection()
-	// defer db.Close()
-	// err := db.Create(&URL).Error
-	// if err != nil {
-	// 	return err
-	// }
-	// return nil
-
-	// urls = append(urls, &model.URLTable{ShortURL: shortURL, LongURL: requestedURL})
-	//
 }
 
 func redirectToActualURL(w http.ResponseWriter, r *http.Request) {
@@ -71,7 +59,7 @@ func redirectToActualURL(w http.ResponseWriter, r *http.Request) {
 	fmt.Print(out.ShortURL, shortURL)
 
 	if out.ShortURL == shortURL {
-		http.Redirect(w, r, out.LongURL, 307)
+		http.Redirect(w, r, out.LongURL, 301)
 		return
 	}
 

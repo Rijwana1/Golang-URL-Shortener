@@ -17,7 +17,5 @@ func CreateConnection() *gorm.DB {
 		panic("failed to connect database")
 	}
 	db.AutoMigrate(&model.URLTable{})
-	// db.Model(&models.Orders{}).AddForeignKey("customer_id","customers(id)","CASCADE","CASCADE")
-	// db.Model(&models.OrderItems{}).AddForeignKey("product_id","products(id)","RESTRICT","RESTRICT").AddForeignKey("order_id","orders(id)","RESTRICT","RESTRICT")
 	return db
 }

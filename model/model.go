@@ -1,6 +1,6 @@
 package model
 
 type URLTable struct {
-	ShortURL string
-	LongURL  string
+	ShortURL string `json:"ShortUrl"`
+	LongURL  string `json:"LongUrl"`
 }
